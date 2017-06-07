@@ -5,15 +5,21 @@
 #include <netinet/in.h>
 #include <netdb.h>
 
+#define BUFFER_SIZE 60
+
 typedef struct buffer{
-
-public:
-
     //Buffer(int size, int socksize);
 
-    char buffer[20][1316];
+    char buffer[BUFFER_SIZE][1316];
 
-    int rear = 0;
-    int front = 0;
+    int rear;
+    int front;
 
 }Buffer;
+
+void initbuf(Buffer *buf){
+
+    buf->rear = 0;
+    buf->fornt = 0;
+
+}

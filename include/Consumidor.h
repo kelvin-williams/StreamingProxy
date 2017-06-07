@@ -19,6 +19,12 @@ public:
     char * ip_;
     char * port_;
 
+    int sock, length, n;
+
+    struct sockaddr_in server;
+
+    void connect();
+
     void read();
 
     void send();

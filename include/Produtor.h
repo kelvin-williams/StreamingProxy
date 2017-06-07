@@ -2,6 +2,9 @@
 #ifndef PRODUTOR_H
 #define PRODUTOR_H
 
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/net.h>
 #include "Thread.h"
 //#include "buffer.h"
 
@@ -17,11 +20,19 @@ public:
     char * ip_;
     char * port_;
 
+    int sock, length, n;
+
+    struct sockaddr_in server;
+
+
     void escreve();
+
+    void connect();
 
     void run();
 
     Buffer * buffer;
+
 
 private:
 
