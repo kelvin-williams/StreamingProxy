@@ -11,6 +11,7 @@
 #include "Consumidor.cpp"
 
 #include "Thread.cpp"
+#include "include/Semaforo.h"
 
 Semaforo empty, full;
 
