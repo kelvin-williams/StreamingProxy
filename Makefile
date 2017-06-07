@@ -2,4 +2,4 @@ CC = g++
 
 
 all:
-	$(CC) *.cpp -pthread -o proxy
+	$(CC) Main.cpp -pthread -o proxy -std=gnu++11

@@ -1,8 +1,6 @@
 
 #include "include/Produtor.h"
 
-
-
 Produtor::Produtor( Buffer * b, char * ip, char * port){
 
     buffer = b;
@@ -16,7 +14,7 @@ void Produtor::connect(){
 
     sock = socket(AF_INET, SOCK_DGRAM, 0);
 
-    if (sock < 0) error("Opening socket");
+    //if (sock < 0) error("Opening socket");
 
     length = sizeof(server);
 
@@ -28,30 +26,24 @@ void Produtor::connect(){
     server.sin_port = htons(atoi(port_));
 
     // Associa um socket a um endereco
-    if (bind(sock, (struct sockaddr *) &server, length) < 0)
-        error("binding");
+    bind(sock, (struct sockaddr *) &server, length);
+       // error("binding");
 
 }
 
 void Produtor::escreve(){
     
     n = recvfrom(sock, buffer->buffer[buffer->rear], 1316, 0, NULL, NULL);
-    if (n < 0) printf("\nrecvfrom");
+   // if (n < 0) printf("\nrecvfrom");
 
     buffer->rear = (buffer->rear + 1) % BUFFER_SIZE;
 
 }
 
-
 void Produtor::run(){
     while(alive){
-    empty->P();
+    buffer->empty->P();
     escreve();
-    full->V();
+    buffer->full->V();
     }
-}
-
-void error(const char *msg) {
-    perror(msg);
-    exit(0);
 }

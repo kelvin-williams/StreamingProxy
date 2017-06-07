@@ -1,16 +1,17 @@
 
-#ifndef PRODUTOR_H
-#define PRODUTOR_H
+#ifndef PRODUTOR_H_
+#define PRODUTOR_H_
 
 
+#include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <netdb.h>
 #include <arpa/inet.h>
 #include <string.h>
+#include <cstdlib>
 #include "Thread.h"
-#include <stdio.h>
-#include <stdlib.h>
-//#include "buffer.h"
+#include "buffer.h"
 
 
 class Produtor : public Thread {
@@ -37,7 +38,6 @@ public:
 
     Buffer * buffer;
 
-    void error(const char *msg);
 
 
 private:

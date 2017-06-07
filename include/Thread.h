@@ -9,7 +9,7 @@
 #define THREAD_H_
 
 #include <pthread.h>
-#include "buffer.h"
+//#include "buffer.h"
 
 class Thread {
 public:

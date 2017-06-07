@@ -15,7 +15,7 @@ void Consumidor::connect(){
 
     sock = socket(AF_INET, SOCK_DGRAM, 0);
 
-    if (sock < 0) error("Opening socket");
+    //if (sock < 0) error("Opening socket");
 
     length = sizeof(server);
 
@@ -27,8 +27,8 @@ void Consumidor::connect(){
     server.sin_port = htons(atoi(port_));
 
     // Associa um socket a um endereco
-    if (bind(sock, (struct sockaddr *) &server, length) < 0)
-        error("binding");
+    bind(sock, (struct sockaddr *) &server, length);
+       // error("binding");
 
 }
 

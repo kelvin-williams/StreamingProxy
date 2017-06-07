@@ -1,16 +1,17 @@
 
-#ifndef CONSUMIDOR_H
-#define CONSUMIDOR_H
+#ifndef CONSUMIDOR_H_
+#define CONSUMIDOR_H_
 
-
-#include "Thread.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <netdb.h>
 #include <arpa/inet.h>
-//#include "buffer.h"
+#include <string.h>
+#include <cstdlib>
+#include <stdio.h>
+#include "Thread.h"
+#include "buffer.h" 
 
 
 class Consumidor : public Thread {
@@ -40,7 +41,6 @@ public:
 
     Buffer * buffer;
 
-    void error(const char *msg);
 
 private:
 

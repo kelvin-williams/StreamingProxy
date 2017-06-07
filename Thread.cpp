@@ -6,7 +6,7 @@
  */
 
 #include "include/Thread.h"
-#include <iostream>
+//#include <iostream>
 
 Thread::Thread() {
 	// TODO Auto-generated constructor stub
