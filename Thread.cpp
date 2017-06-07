@@ -36,5 +36,3 @@ void *Thread::staticRun(void *args) {
 
 	return NULL;
 }
-
-
