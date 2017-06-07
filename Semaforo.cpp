@@ -1,4 +1,4 @@
-#include "Semaforo.h"
+#include "include/Semaforo.h"
 
 Semaforo::Semaforo(int value){
   sem_init(&sem, 0, value);
