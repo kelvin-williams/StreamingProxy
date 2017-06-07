@@ -12,8 +12,12 @@
 
 #include "Thread.cpp"
 
+Semaforo empty, full;
+
 int main(){
-    Buffer buf;
+    buffer buf;
+    empty = new Semaforo(20);
+    full = new Semaforo(0);
     Produtor p(&buf, "127.0.0.1", "4000");
     Consumidor c(&buf, "127.0.0.1", "5000", false); 
 
