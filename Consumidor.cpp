@@ -10,7 +10,7 @@ Consumidor::Consumidor( Buffer * b, char * ip, char * port, bool hd){
 
 }
 
-void Produtor::connect(){
+void Consumidor::connect(){
 
     sock = socket(AF_INET, SOCK_DGRAM, 0);
 
