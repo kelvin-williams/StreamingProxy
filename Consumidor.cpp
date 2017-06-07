@@ -1,3 +1,4 @@
+
 #include "include/Consumidor.h"
 
 Consumidor::Consumidor( Buffer * b, char * ip, char * port, bool hd){
