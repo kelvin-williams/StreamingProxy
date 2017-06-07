@@ -5,7 +5,10 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <string.h>
 #include "Thread.h"
+#include <stdio.h>
+#include <stdlib.h>
 //#include "buffer.h"
 
 
@@ -32,6 +35,8 @@ public:
     void run();
 
     Buffer * buffer;
+
+    void error(const char *msg);
 
 
 private:
