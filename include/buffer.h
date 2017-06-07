@@ -20,6 +20,6 @@ typedef struct buffer{
 void initbuf(Buffer *buf){
 
     buf->rear = 0;
-    buf->fornt = 0;
+    buf->front = 0;
 
 }
