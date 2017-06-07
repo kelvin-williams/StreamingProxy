@@ -4,6 +4,11 @@
             Marcus Alves
             Valfredo Santos
 */
+#include <stdlib.h>
+#include <unistd.h>
+
+#include "Produtor.cpp"
+#include "Consumidor.cpp"
 
 #include "Thread.cpp"
 
