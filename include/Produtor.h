@@ -4,7 +4,7 @@
 
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <arpa/net.h>
+#include <arpa/inet.h>
 #include "Thread.h"
 //#include "buffer.h"
 
