@@ -41,38 +41,101 @@ void Consumidor::read(){
 
     if(HD){//Se é HD (escritor)
 
-            
+            buffer->e->P();
+            if(buffer->nr > 0 || buffer->nw > 0){
+                buffer->dw++;
+                buffer->e->V();
+                buffer->w->P();
+            }
+            buffer->nw++;
+            //SIGNAL
+            buffer->e->V();
+/////////////////Acesso ao Buffer////////////////////////////////////////////////////////
+            buffer->full->P();
+
+            std::copy(std::begin(buffer->buffer[reading]), std::end(buffer->buffer[reading]), std::begin(data));
+
+            buffer->readfront[reading]->P();
+
+            buffer->cont[reading]++;
+
+            if(buffer->cont[reading] == nc){//Se o que ele leu é o front, e se ele é o ultimo a ler
+
+                buffer->cont[reading] = 0;
+                buffer->front = (int)((buffer->front + 1) % BUFFER_SIZE);
+                buffer->empty->V();
+
+                }else{
+                    buffer->full->V();
+                    } 
+
+                buffer->readfront[reading]->V();
+                reading =(int) ((reading + 1) % (BUFFER_SIZE)); 
+////////////////////Fim do acesso ao buffer/////////////////////////////////////////////////////////////
+
+            buffer->e->P();
+            buffer->nw--;
+            //SIGNAL
+            if(buffer->dw > 0){
+                buffer->dw--;
+                buffer->w->V();
+            }else{
+                if(buffer->dr > 0){
+                    buffer->dr--;
+                    buffer->r->V();
+                }else buffer->e->V();
+            }
 
 
         }else{//Se é só leitor
 
-            //printf("\n Thread :%d pegando dados", id);
+            buffer->e->P();
+            if(buffer->nw > 0 || buffer->dw > 0){
+                buffer->dr++;
+                buffer->e->V();
+                buffer->r->P();
+            }
+            buffer->nr++;
+            //SIGNAL
+            if (buffer->dr > 0) { 
+                buffer->dr--;
+                 buffer->r->V();
+                 }else{
+                      buffer->e->V();
+                      }
+
+/////////////////Acesso ao Buffer////////////////////////////////////////////////////////
             buffer->full->P();
 
-
             std::copy(std::begin(buffer->buffer[reading]), std::end(buffer->buffer[reading]), std::begin(data));
-        //    buffer->front = (buffer->front + 1) % BUFFER_SIZE;
-          //  buffer->empty->V();
-       //     printf("\n Thread :%d deu P no readfront[%d]", id, reading);
+
             buffer->readfront[reading]->P();
-            
-      //      printf("\n Thread :%d, Lendo: %d, Front: %d", id, reading, buffer->front);
+
             buffer->cont[reading]++;
 
-
             if(buffer->cont[reading] == nc){//Se o que ele leu é o front, e se ele é o ultimo a ler
-         //       printf("\n Thread: %d, Vai avançar o front para: %d, Front: %d", id, (int) ((buffer->front + 1) % BUFFER_SIZE));
+
                 buffer->cont[reading] = 0;
                 buffer->front = (int)((buffer->front + 1) % BUFFER_SIZE);
                 buffer->empty->V();
+
                 }else{
                     buffer->full->V();
-                } 
+                    } 
 
-           //     printf("\n Thread :%d deu V no readfront[%d]\n", id, reading);
                 buffer->readfront[reading]->V();
-                reading =(int) ((reading + 1) % (BUFFER_SIZE));  
+                reading =(int) ((reading + 1) % (BUFFER_SIZE)); 
+////////////////////Fim do acesso ao buffer/////////////////////////////////////////////////////////////
 
+            buffer->e->P();
+            buffer->nr--;
+            //SIGNAL
+            if(buffer->nr == 0 && buffer->dw > 0){
+                buffer->dw--;
+                buffer->w->V();
+            }else{
+                buffer->e->V();
+            }
         }
 
 }

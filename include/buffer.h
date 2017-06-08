@@ -8,7 +8,7 @@
 //#include <netdb.h>
 #include "Semaforo.h"
 
-#define BUFFER_SIZE 60
+#define BUFFER_SIZE 2000
 
 typedef struct buffer{
     //Buffer(int size, int socksize);
@@ -23,6 +23,12 @@ typedef struct buffer{
     Semaforo * full;
 
     Semaforo * readfront[BUFFER_SIZE];
+
+    //Passagem de bastão
+    int nr, nw, dr, dw;
+    Semaforo * e;
+    Semaforo * r;
+    Semaforo * w;
 
 }Buffer;
 
@@ -41,6 +47,15 @@ void initbuf(Buffer *buf){
     for(k = 0; k < BUFFER_SIZE; k++){
     buf->readfront[k] = new Semaforo(1);
     }
+
+    buf->nr = 0;
+    buf->nw = 0;
+    buf->dr = 0;
+    buf->dw = 0;
+
+    buf->e = new Semaforo(1);
+    buf->r = new Semaforo(0);
+    buf->w = new Semaforo(0);
 
 }
 
