@@ -31,19 +31,23 @@ int main(){
     char ip2[20] = {"127.0.0.1"};
     char po1[20] = {"4000"};
     char po2[20] = {"5000"};
-    char po3[20] = {"5001"};
+    char po3[20] = {"6000"};
+    char po4[20] = {"7000"};
 
     Produtor p(&buf, &ip1[0], &po1[0]);
     Consumidor c(&buf, &ip2[0], &po2[0], false);
     Consumidor c2(&buf, &ip2[0], &po3[0], false);
+ //   Consumidor c3(&buf, &ip2[0], &po4[0], false);
 
     p.start();
     c.start();
     c2.start();
+ //   c3.start();
 
     p.join();
     c.join();
     c2.join();
+ //   c3.join();
 
     return 0;
 }

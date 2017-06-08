@@ -32,11 +32,12 @@ void Produtor::connect(){
 }
 
 void Produtor::escreve(){
-    
+    buffer->empty->P();
     n = recvfrom(sock, buffer->buffer[buffer->rear], 1316, 0, NULL, NULL);
    // if (n < 0) printf("\nrecvfrom");
+    buffer->full->V();
 
-    buffer->rear = (buffer->rear + 1) % BUFFER_SIZE;
+    buffer->rear = (int)(buffer->rear + 1) % BUFFER_SIZE;
 
 }
 
@@ -45,8 +46,8 @@ void Produtor::run(){
     connect();
     
     while(alive){
-    buffer->empty->P();
+    
     escreve();
-    buffer->full->V();
+    
     }
 }

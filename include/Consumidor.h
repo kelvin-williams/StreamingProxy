@@ -35,6 +35,8 @@ public:
     char data[1316];
 
     int reading = 0;
+    
+    int id;
 
     void connect();
 

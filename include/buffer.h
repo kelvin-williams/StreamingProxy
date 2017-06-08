@@ -22,7 +22,7 @@ typedef struct buffer{
     Semaforo * empty;
     Semaforo * full;
 
-    Semaforo * readfront;
+    Semaforo * readfront[BUFFER_SIZE];
 
 }Buffer;
 
@@ -37,7 +37,10 @@ void initbuf(Buffer *buf){
 
     buf->empty = new Semaforo(BUFFER_SIZE);
     buf->full = new Semaforo(0);
-    buf->readfront = new Semaforo(1);
+    int k;
+    for(k = 0; k < BUFFER_SIZE; k++){
+    buf->readfront[k] = new Semaforo(1);
+    }
 
 }
 
