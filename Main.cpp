@@ -38,5 +38,8 @@ int main(){
     p.start();
     c.start();
 
+    p.join();
+    c.join();
+
     return 0;
 }
