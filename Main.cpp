@@ -14,6 +14,7 @@
 //#include "Thread.cpp"
 
 //#include "Semaforo.cpp"
+int nc = 0;
 
 #include "Produtor.cpp"
 #include "Consumidor.cpp"

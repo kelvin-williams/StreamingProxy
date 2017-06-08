@@ -17,9 +17,12 @@ typedef struct buffer{
 
     int rear;
     int front;
+    int cont[BUFFER_SIZE];
 
     Semaforo * empty;
     Semaforo * full;
+
+    Semaforo * readfront;
 
 }Buffer;
 
@@ -27,9 +30,14 @@ void initbuf(Buffer *buf){
 
     buf->rear = 0;
     buf->front = 0;
+    int i;
+    for(i = 0; i < BUFFER_SIZE; i++){
+        buf->cont[i] = 0;
+    }
 
     buf->empty = new Semaforo(BUFFER_SIZE);
     buf->full = new Semaforo(0);
+    buf->readfront = new Semaforo(1);
 
 }
 

@@ -41,6 +41,9 @@ void Produtor::escreve(){
 }
 
 void Produtor::run(){
+    
+    connect();
+    
     while(alive){
     buffer->empty->P();
     escreve();

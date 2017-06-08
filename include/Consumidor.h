@@ -10,6 +10,7 @@
 #include <string.h>
 #include <cstdlib>
 #include <stdio.h>
+#include <iterator>
 #include "Thread.h"
 #include "buffer.h" 
 
@@ -30,6 +31,10 @@ public:
     int sock, length, n;
 
     struct sockaddr_in server;
+
+    char data[1316];
+
+    int reading = 0;
 
     void connect();
 
