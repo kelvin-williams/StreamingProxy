@@ -8,8 +8,9 @@ Consumidor::Consumidor( Buffer * b, char * ip, char * port, bool hd){
     port_ = port;
     alive = true;
     HD = hd;
-
+    buffer->readfront->P();
     nc++;
+    buffer->readfront->V();
 
 }
 
@@ -44,19 +45,23 @@ void Consumidor::read(){
         }else{//Se é só leitor
 
             buffer->full->P();
-            std::copy(std::begin(buffer->buffer[buffer->front]), std::end(buffer->buffer[buffer->front]), std::begin(data));
+            std::copy(std::begin(buffer->buffer[reading]), std::end(buffer->buffer[reading]), std::begin(data));
           //  data = buffer->buffer[buffer->front];
-            buffer->front = (buffer->front + 1) % BUFFER_SIZE;
-            buffer->empty->V();
+        //    buffer->front = (buffer->front + 1) % BUFFER_SIZE;
+          //  buffer->empty->V();
 
-          /*  buffer->readfront->P();
-            buffer->cont[read]++;
+            buffer->readfront->P();
+            buffer->cont[reading]++;
 
-            if(read == buffer->front && buffer->cont[read] == nc){//Se o que ele leu é o front, e se ele é o ultimo a ler
-                buffer->cont[read] = 0;
+            if(reading == buffer->front && buffer->cont[reading] == nc){//Se o que ele leu é o front, e se ele é o ultimo a ler
+                buffer->cont[reading] = 0;
                 buffer->front = (buffer->front + 1) % BUFFER_SIZE;
                 buffer->empty->V();
-                }*/
+                }
+                
+                buffer->readfront->V();
+
+                reading = (reading + 1) % BUFFER_SIZE;
             
 
         }
