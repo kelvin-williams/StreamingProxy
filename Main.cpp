@@ -37,9 +37,9 @@ int main(){
 
     Produtor p(&buf, &ip1[0], &po1[0]);
     Consumidor c(&buf, &ip2[0], &po2[0], false);
-    Consumidor c2(&buf, &ip2[0], &po3[0], true);
+    Consumidor c2(&buf, &ip2[0], &po3[0], false);
     Consumidor c3(&buf, &ip2[0], &po4[0], false);
-    Consumidor c4(&buf, &ip2[0], &po5[0], false);
+    Consumidor c4(&buf, &ip2[0], &po5[0], true);
 
     p.start();
     c.start();

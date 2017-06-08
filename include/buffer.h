@@ -8,7 +8,7 @@
 //#include <netdb.h>
 #include "Semaforo.h"
 
-#define BUFFER_SIZE 2000
+#define BUFFER_SIZE 5000
 
 typedef struct buffer{
     //Buffer(int size, int socksize);

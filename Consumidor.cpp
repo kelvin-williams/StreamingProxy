@@ -8,10 +8,10 @@ Consumidor::Consumidor( Buffer * b, char * ip, char * port, bool hd){
     port_ = port;
     alive = true;
     HD = hd;
-    buffer->readfront[0]->P();
-    nc++;
-    buffer->readfront[0]->V();
-    id = nc;
+  //  buffer->readfront[0]->P();
+  //  nc++;
+  //  buffer->readfront[0]->V();
+  //  id = nc;
     reading = buffer->front;
 
 }
@@ -39,17 +39,7 @@ void Consumidor::connect(){
 
 void Consumidor::read(){
 
-    if(HD){//Se é HD (escritor)
-
-            buffer->e->P();
-            if(buffer->nr > 0 || buffer->nw > 0){
-                buffer->dw++;
-                buffer->e->V();
-                buffer->w->P();
-            }
-            buffer->nw++;
-            //SIGNAL
-            buffer->e->V();
+    
 /////////////////Acesso ao Buffer////////////////////////////////////////////////////////
             buffer->full->P();
 
@@ -73,7 +63,45 @@ void Consumidor::read(){
                 reading =(int) ((reading + 1) % (BUFFER_SIZE)); 
 ////////////////////Fim do acesso ao buffer/////////////////////////////////////////////////////////////
 
+}
+
+void Consumidor::send(){
+
+        sendto(sock, data, 1316, 0, (struct sockaddr *) &server, length);
+}
+
+void Consumidor::run(){
+
+    if(HD){//Se é HD (escritor)
+    
+    buffer->readfront[0]->P();
+    nc++;
+    buffer->readfront[0]->V();
+    id = nc;
+
+
             buffer->e->P();
+            if(buffer->nr > 0 || buffer->nw > 0){
+                buffer->dw++;
+                buffer->e->V();
+                buffer->w->P();
+            }
+            buffer->nw++;
+            //SIGNAL
+            buffer->e->V();
+//////////////////////////////////////////////
+
+    connect();
+
+    while(alive){
+
+        read();
+        send();
+
+    }
+//////////////////////////////////////////////////
+
+    buffer->e->P();
             buffer->nw--;
             //SIGNAL
             if(buffer->dw > 0){
@@ -89,6 +117,11 @@ void Consumidor::read(){
 
         }else{//Se é só leitor
 
+        buffer->readfront[0]->P();
+        nc++;
+        buffer->readfront[0]->V();
+        id = nc;
+
             buffer->e->P();
             if(buffer->nw > 0 || buffer->dw > 0){
                 buffer->dr++;
@@ -103,31 +136,17 @@ void Consumidor::read(){
                  }else{
                       buffer->e->V();
                       }
+///////////////////////////////////////////////////////////
+connect();
 
-/////////////////Acesso ao Buffer////////////////////////////////////////////////////////
-            buffer->full->P();
+    while(alive){
 
-            std::copy(std::begin(buffer->buffer[reading]), std::end(buffer->buffer[reading]), std::begin(data));
+        read();
+        send();
 
-            buffer->readfront[reading]->P();
-
-            buffer->cont[reading]++;
-
-            if(buffer->cont[reading] == nc){//Se o que ele leu é o front, e se ele é o ultimo a ler
-
-                buffer->cont[reading] = 0;
-                buffer->front = (int)((buffer->front + 1) % BUFFER_SIZE);
-                buffer->empty->V();
-
-                }else{
-                    buffer->full->V();
-                    } 
-
-                buffer->readfront[reading]->V();
-                reading =(int) ((reading + 1) % (BUFFER_SIZE)); 
-////////////////////Fim do acesso ao buffer/////////////////////////////////////////////////////////////
-
-            buffer->e->P();
+    }
+///////////////////////////////////////////////////////////
+ buffer->e->P();
             buffer->nr--;
             //SIGNAL
             if(buffer->nr == 0 && buffer->dw > 0){
@@ -137,23 +156,5 @@ void Consumidor::read(){
                 buffer->e->V();
             }
         }
-
-}
-
-void Consumidor::send(){
-
-        sendto(sock, data, 1316, 0, (struct sockaddr *) &server, length);
-}
-
-void Consumidor::run(){
-
-    connect();
-
-    while(alive){
-
-        read();
-        send();
-
-    }
 
 }
